@@ -14,14 +14,14 @@ content-type: application/json
 
 {
   "name": "German",
-  "number": "+375-25-505-03-01"
+  "number": "+375-25-505-03-0"
 }
 
 ###
-
-PUT http://localhost:3001/api/persons/658b3df67239c84ab4a35cbd HTTP/1.1
+ 
+PATCH http://localhost:3001/api/persons/658f2ec24b759d8e10d80989 HTTP/1.1
 content-type: application/json
 
 {
-  "number": "+375-25-322-31-12"
-}
+  "number": "+375-25-322-31-1"
+} 

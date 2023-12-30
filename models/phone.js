@@ -14,16 +14,20 @@ mongoose
     console.log("error connectiong to MongoDB: ", error.message);
   });
 
-const phoneShema = new mongoose.Schema({
+const phoneSchema = new mongoose.Schema({
   name: {
     type: String,
     minLength: 3,
-    require: true
+    required: true
   },
-  number: String,
+  number:{
+    type: String,
+    minLength: 3,
+    required: true
+  }
 });
 
-phoneShema.set("toJSON", {
+phoneSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -31,4 +35,4 @@ phoneShema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("Phone", phoneShema);
+module.exports = mongoose.model("Phone", phoneSchema);

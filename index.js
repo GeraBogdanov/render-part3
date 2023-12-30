@@ -5,6 +5,14 @@ const cors = require("cors");
 const app = express();
 const Phone = require("./models/phone");
 
+function requestLogger (request, response, next) {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
+
 function errorHandler (error, request, response, next) {
   console.error(error.message);
 
@@ -22,8 +30,8 @@ function unknownEndpoint(request, response) {
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static("dist"));
-// app.use(requestLogger)
+// app.use(express.static("dist"));
+app.use(requestLogger);
 
 morgan.token("body", (req) => {
   return JSON.stringify(req.body);
@@ -73,9 +81,17 @@ app.get("/info", (request, response) => {
 app.delete("/api/persons/:id", (request, response, next) => {
   Phone.findByIdAndDelete(request.params.id)
     .then(result => {
+      if(!result){
+        return response.status(400).json({
+          error: "info already deleted from server"
+        })
+      }
+      console.log(`app.delete; Stage:then; result:${result}`)
       response.status(204).end()
     })
-    .catch(error => next(error))
+    .catch(error => {
+      console.log(`app.delete Stage:catch`)
+      next(error)})
 });
 
 app.post("/api/persons", (request, response, next) => {
@@ -108,9 +124,18 @@ app.post("/api/persons", (request, response, next) => {
 app.patch("/api/persons/:id", (request, response, next) => {
   const body = request.body;
 
-  Phone.findByIdAndUpdate(request.params.id, {number: body.phone}, { new:true, runValidators: true, context: 'query' })
-    .then(updateNote => {
-      response.json(updateNote)
+  Phone.findByIdAndUpdate(
+    request.params.id, 
+    { number: body.number},
+    { new: true, runValidators: true, context: 'query' })
+    .then(updatedPhone => {
+      console.log(`app.patch, stage:then, message:${updatedPhone}`)
+      if (!updatedPhone) {
+        return response.status(400).json({
+          error: "info already deleted from server"
+        })
+      }
+      response.json(updatedPhone)
     })
     .catch(error => next(error))
 })
