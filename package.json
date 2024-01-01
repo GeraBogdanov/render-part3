@@ -8,7 +8,8 @@
     "dev": "nodemon index.js",
     "test": "\"echo \\\"Error: no test specified\\\" && exit 1\"",
     "build:ui": "rm -rf dist && cd ../render-frontend && npm run build && cp -r dist ../render-part3",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "lint": "eslint ."
   },
   "author": "German Bogdanov",
   "license": "MIT",
@@ -20,6 +21,8 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
     "nodemon": "^3.0.2"
   }
 }
