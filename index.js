@@ -79,7 +79,6 @@ app.get('/info', (request, response) => {
       } people</p><p>${new Date()}</p></div>`
     )
   })
-  
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
