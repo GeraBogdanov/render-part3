@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../render-frontend"
+		},
+		{
+			"path": "../blog-list"
 		}
 	]
 }
